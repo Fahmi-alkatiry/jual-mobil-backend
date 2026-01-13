@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum untuk melacak status penawaran mobil
+enum OfferStatus {
+  BARU // Baru masuk dari form
+  DIPROSES // Sedang dihubungi/inspeksi
+  SELESAI // Mobil berhasil terjual
+  BATAL // Penawaran ditolak atau klien membatalkan
+}
+
+model Admin {
+  id Int @id @default(autoincrement())
+
+  username String @unique
+
+  password String
+
+  // Kolom opsional (?) untuk profil dan integrasi WhatsApp gateway
+
+  email String? @unique
+
+  admin_wa String? // Nomor WhatsApp admin untuk pengiriman notifikasi
+
+  wa_device_id String? // ID Perangkat untuk API WhatsApp
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+model Offer {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  status    OfferStatus @default(BARU)
+
+  // --- Step 1: Info Mobil ---
+  brand        String // Merek (Toyota, Honda, dll)
+  model        String // Tipe spesifik (Avanza, Civic, dll)
+  year         Int // Tahun perakitan
+  transmission String // Automatic / Manual
+  color        String // Warna kendaraan
+
+  // --- Step 2: Kondisi & Legalitas ---
+  mileage       Int // Kilometer (KM)
+  taxDate       DateTime? // Tanggal masa berlaku pajak
+  stnkOwnership String // Pribadi / PT
+
+  // --- Step 3: Kontak ---
+  fullName String // Nama lengkap pengirim
+  email    String? // Email (opsional)
+  whatsapp String // Nomor WA (format: +62...)
+  location String // Lokasi inspeksi (Kantor / Home Service)
+}

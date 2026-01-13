@@ -1,0 +1,14 @@
+{
+  "brand": "Toyota",
+  "model": "Avanza Veloz 1.5",
+  "year": 2019,
+  "transmission": "Automatic",
+  "color": "Hitam Metalik",
+  "mileage": 45000,
+  "taxDate": "2025-08-20",
+  "stnkOwnership": "Pribadi",
+  "fullName": "Budi Santoso",
+  "email": "budi@mail.com",
+  "whatsapp": "+6281234567890",
+  "location": "Home Service"
+}
