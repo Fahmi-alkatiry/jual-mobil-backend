@@ -13,12 +13,13 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 // app.use(cors()); // Izinkan akses dari Frontend
 
-app.use(
-  cors({
-    origin: "https://jualmobilku.my.id",
-    credentials: true,
-  })
-);
+app.use(cors({
+  // Menggunakan URL frontend dari env atau fallback ke domain produksi Anda
+  origin: process.env.FRONTEND_URL || 'https://jualmobilku.my.id', 
+  methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+  credentials: true, // Izinkan pengiriman cookie/auth header
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Device-Id']
+}));
 
 app.use(express.json()); // Supaya bisa baca JSON body
 
