@@ -9,19 +9,9 @@ dotenv.config({ quiet: true });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// 1. Perbaiki CORS agar bisa diakses dari Frontend Produksi & Localhost
-// const allowedOrigins = [
-//   'http://localhost:3000',
-//   'https://jualmobilku.my.id',
-//   'https://fe.jualmobilku.my.id',
-//   process.env.FRONTEND_URL
-// ].filter(Boolean);
 
-app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Device-Id']
-}));
+
+app.use(cors("*"));
 
 // 2. Parser Body JSON
 app.use(express.json());
