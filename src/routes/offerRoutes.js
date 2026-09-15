@@ -1,3 +1,4 @@
+// src/routes/offerRoutes.js
 import express from 'express';
 import { createOffer, getAllOffers, getOfferById, updateOfferStatus } from '../controllers/offerController.js';
 import { offerLimiter } from '../middlewares/rateLimit.js';

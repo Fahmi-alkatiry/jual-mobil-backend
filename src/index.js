@@ -9,9 +9,17 @@ dotenv.config({ quiet: true });
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// ✅ Izinkan semua origin (Default)
+app.use(cors());
 
-
-app.use(cors("*"));
+// ATAU jika ingin eksplisit mengizinkan origin tertentu:
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 // 2. Parser Body JSON
 app.use(express.json());
