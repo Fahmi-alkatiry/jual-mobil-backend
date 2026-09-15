@@ -12,9 +12,12 @@ const HOST = env.HOST;
 app.set("trust proxy", 1);
 
 // 2. CORS configuration
+const corsOrigins = env.CORS_ORIGINS.split(",").map((s) => s.trim());
+
 app.use(
   cors({
-    origin: "*",
+    origin: corsOrigins,
+    credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

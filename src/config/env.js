@@ -10,6 +10,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1, 'DATABASE_URL wajib diisi'),
   JWT_SECRET: z.string().min(1, 'JWT_SECRET wajib diisi'),
   ALLOW_REGISTER: z.enum(['true', 'false']).default('false'),
+  CORS_ORIGINS: z.string().optional().default('https://fe.jualmobilku.my.id,https://jualmobilku.my.id,http://localhost:5173'),
   WA_API_URL: z.string().optional(),
   WA_DEVICE_ID: z.string().optional(),
   ADMIN_WA: z.string().optional(),
