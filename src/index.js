@@ -2,46 +2,45 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import offerRoutes from "./routes/offerRoutes.js";
-import authRoutes from "./routes/authRoutes.js"; // Import rute autentikasi
+import authRoutes from "./routes/authRoutes.js";
 
-// Load env vars
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-// app.use(cors()); // Izinkan akses dari Frontend
+// 1. Perbaiki CORS agar bisa diakses dari Frontend Produksi & Localhost
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://jualmobilku.my.id',
+  process.env.FRONTEND_URL
+].filter(Boolean);
 
 app.use(cors({
-  // Menggunakan URL frontend dari env atau fallback ke domain produksi Anda
-  origin: process.env.FRONTEND_URL || 'https://jualmobilku.my.id', 
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Atau set callback(new Error('CORS Error')) untuk proteksi ketat
+    }
+  },
   methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
-  credentials: true, // Izinkan pengiriman cookie/auth header
+  credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Device-Id']
 }));
 
-app.use(express.json()); // Supaya bisa baca JSON body
+// 2. Parser Body JSON
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes Grouping
-/**
- * Route untuk penawaran (offers)
- * Contoh: POST /api/offers, GET /api/offers
- */
+// 3. Routing
 app.use("/api", offerRoutes);
+app.use("/api/auth", authRoutes); // Endpoint resmi: /api/auth/register
 
-/**
- * Route untuk autentikasi (auth)
- * Contoh: POST /api/auth/login, POST /api/auth/register
- */
-app.use("/api/auth", authRoutes);
-
-// Root check
 app.get("/", (req, res) => {
   res.send("Server JualMobilku Ready 🚀");
 });
 
-// Start Server
 app.listen(PORT, () => {
-  console.log(`Server berjalan di http://localhost:${PORT}`);
+  console.log(`Server berjalan di port ${PORT}`);
 });
