@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import offerRoutes from "./routes/offerRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const app = express();
 const PORT = process.env.PORT || 5000;
