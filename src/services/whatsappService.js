@@ -1,5 +1,6 @@
 import axios from 'axios';
 import prisma from '../lib/prisma.js';
+import { env } from '../config/env.js';
 
 /**
  * Helper untuk memastikan nomor hanya berisi angka tanpa format JID bawaan backend.
@@ -31,16 +32,12 @@ export const sendWaNotification = async (offerData) => {
 
     // 2. Alamat dasar GoWA API (Pastikan mengarah ke /message/text)
     // Jika di .env Anda menuliskan 'https://myperfumee.my.id', kita ganti otomatis ke rute yang benar.
-    let waUrl = process.env.WA_API_URL || 'https://myperfumee.my.id/send/message';
-    // if (waUrl.endsWith('/send/message')) {
-    //   waUrl = waUrl.replace('/send/message', '/message/message');
-    // }
-
-    const deviceId = adminConfig?.wa_device_id || process.env.WA_DEVICE_ID;
-    const adminWa = adminConfig?.admin_wa || process.env.ADMIN_WA;
+    let waUrl = env.WA_API_URL || 'https://wa.myperfumee.my.id/send/message';
+    const deviceId = adminConfig?.wa_device_id || env.WA_DEVICE_ID;
+    const adminWa = adminConfig?.admin_wa || env.ADMIN_WA;
     
-    const waUser = process.env.WA_BASIC_USER || 'user1';
-    const waPass = process.env.WA_BASIC_PASS || 'pass1';
+    const waUser = env.WA_BASIC_USER;
+    const waPass = env.WA_BASIC_PASS;
 
     if (!deviceId) {
       console.error('⚠️ WA Service: Device ID tidak ditemukan di DB maupun .env');
@@ -62,16 +59,17 @@ export const sendWaNotification = async (offerData) => {
       `Terima kasih telah menggunakan JualMobilku. Data mobil *${offerData.brand} ${offerData.model}* telah kami terima.\n\n` +
       `Tim kami akan segera menghubungi Anda untuk konfirmasi jadwal inspeksi. 🙏`;
 
-    const authHeader = 'Basic ' + Buffer.from(`${waUser}:${waPass}`).toString('base64');
+    const headers = {
+      'X-Device-Id': deviceId,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+
+    if (waUser && waPass) {
+      headers['Authorization'] = 'Basic ' + Buffer.from(`${waUser}:${waPass}`).toString('base64');
+    }
 
     // Headers standar GoWA API
-    const axiosConfig = {
-      headers: {
-        'Authorization': authHeader,
-        'X-Device-Id': deviceId,
-        'Content-Type': 'application/x-www-form-urlencoded' // GoWA menerima form-urlencoded atau multipart form untuk kestabilan rute
-      }
-    };
+    const axiosConfig = { headers };
 
     // 3. Kirim Notifikasi ke Admin
     if (adminWa) {

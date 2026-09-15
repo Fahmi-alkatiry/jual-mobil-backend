@@ -1,6 +1,6 @@
 import prisma from '../lib/prisma.js';
 import { ZodError } from 'zod';
-import { createOfferSchema } from '../validators/offer.schema.js';
+import { createOfferSchema, offerStatusEnum } from '../validators/offer.schema.js';
 import { sendWaNotification } from '../services/whatsappService.js';
 
 export const createOffer = async (req, res) => {
@@ -116,16 +116,27 @@ export const getAllOffers = async (req, res) => {
 
 export const updateOfferStatus = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { status } = req.body;
+    const offerId = parseInt(req.params.id);
+    if (isNaN(offerId)) {
+      return res.status(400).json({ success: false, message: 'ID penawaran tidak valid' });
+    }
+
+    const status = offerStatusEnum.parse(req.body.status);
 
     const updated = await prisma.offer.update({
-      where: { id: parseInt(id) },
+      where: { id: offerId },
       data: { status }
     });
 
     res.json({ success: true, data: updated });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        success: false,
+        message: 'Status penawaran tidak valid',
+        errors: error.errors
+      });
+    }
     res.status(500).json({ success: false, message: 'Gagal memperbarui status' });
   }
 };  
@@ -133,9 +144,13 @@ export const updateOfferStatus = async (req, res) => {
 
 export const getOfferById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const offerId = parseInt(req.params.id);
+    if (isNaN(offerId)) {
+      return res.status(400).json({ success: false, message: 'ID penawaran tidak valid' });
+    }
+
     const offer = await prisma.offer.findUnique({
-      where: { id: parseInt(id) }
+      where: { id: offerId }
     });
 
     if (!offer) {

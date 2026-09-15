@@ -3,9 +3,17 @@ import { ZodError } from 'zod';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { registerSchema, loginSchema, updateProfileSchema } from '../validators/auth.schema.js';
+import { env } from '../config/env.js';
 
 export const registerAdmin = async (req, res) => {
   try {
+    if (env.ALLOW_REGISTER !== 'true') {
+      return res.status(403).json({
+        success: false,
+        message: 'Registrasi admin ditutup pada environment ini'
+      });
+    }
+
     const { username, password } = registerSchema.parse(req.body);
 
     const existingAdmin = await prisma.admin.findUnique({
@@ -78,7 +86,7 @@ export const loginAdmin = async (req, res) => {
 
     const token = jwt.sign(
       { id: admin.id, username: admin.username, role: 'ADMIN' },
-      process.env.JWT_SECRET || 'secret_fallback_key',
+      env.JWT_SECRET,
       { expiresIn: '1d' }
     );
 

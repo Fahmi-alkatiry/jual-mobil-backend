@@ -1,38 +1,54 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+import { env } from "./config/env.js";
 import offerRoutes from "./routes/offerRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
-dotenv.config({ quiet: true });
-
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = parseInt(env.PORT, 10);
+const HOST = env.HOST;
 
-// ✅ Izinkan semua origin (Default)
-app.use(cors());
+// 1. Trust proxy untuk rate limiting di belakang reverse proxy (Render, Heroku, NGINX, Cloudflare)
+app.set("trust proxy", 1);
 
-// ATAU jika ingin eksplisit mengizinkan origin tertentu:
+// 2. CORS configuration
 app.use(
   cors({
     origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  }),
+  })
 );
 
-// 2. Parser Body JSON
+// 3. Parser Body JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 3. Routing
-app.use("/api/auth", authRoutes); // Endpoint resmi: /api/auth/register
+// 4. Routing
+app.use("/api/auth", authRoutes);
 app.use("/api", offerRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Server JualMobilku Ready 🚀");
+  res.json({ success: true, message: "Server JualMobilku Ready 🚀" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server berjalan di port ${PORT}`);
+// 5. 404 Handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Rute '${req.originalUrl}' tidak ditemukan`,
+  });
+});
+
+// 6. Global Error Handler
+app.use((err, req, res, next) => {
+  console.error("Global Error Handler:", err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: env.NODE_ENV === "production" ? "Internal Server Error" : err.message,
+  });
+});
+
+app.listen(PORT, HOST, () => {
+  console.log(`Server berjalan di http://${HOST}:${PORT}`);
 });
