@@ -47,12 +47,18 @@ export const sendWaNotification = async (offerData) => {
     // Template Pesan Admin
     const adminMessage = `*NOTIFIKASI JUAL MOBIL BARU* 🚗\n\n` +
       `*Unit:* ${offerData.brand} ${offerData.model} (${offerData.year})\n` +
+      `*Warna:* ${offerData.color}\n` +
       `*KM:* ${offerData.mileage.toLocaleString()} km\n` +
       `*Transmisi:* ${offerData.transmission}\n` +
+      `*Tanggal Pajak:* ${new Date(offerData.taxDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}\n` +
       `*Penjual:* ${offerData.fullName}\n` +
+      `*Kepemilikan:* ${offerData.stnkOwnership}\n` +
       `*WhatsApp:* ${offerData.whatsapp}\n` +
       `*Lokasi:* ${offerData.location}\n\n` +
-      `_Segera cek dashboard admin untuk detail lengkap._`;
+      `*https://fe.jualmobilku.my.id/admin/offers/${offerData.id}\n\n` +
+      `_Segera cek dashboard admin untuk detail lengkap._`
+      
+      ;
 
     // Template Pesan Klien
     const clientMessage = `Halo *${offerData.fullName}*,\n\n` +
