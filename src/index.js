@@ -3,6 +3,7 @@ import cors from "cors";
 import { env } from "./config/env.js";
 import offerRoutes from "./routes/offerRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import purchasedCarRoutes from "./routes/purchasedCarRoutes.js";
 
 const app = express();
 const PORT = parseInt(env.PORT, 10);
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 // 4. Routing
 app.use("/api/auth", authRoutes);
 app.use("/api", offerRoutes);
+app.use("/api", purchasedCarRoutes);
 
 app.get("/", (req, res) => {
   res.json({ success: true, message: "Server JualMobilku Ready 🚀" });

@@ -4,7 +4,7 @@ import { z } from 'zod';
 export const createOfferSchema = z.object({
   brand: z.string().min(1, 'Brand wajib diisi'),
   model: z.string().min(1, 'Model wajib diisi'),
-  year: z.coerce.number().int().min(1980).max(new Date().getFullYear()),
+  year: z.coerce.number().int().min(2000).max(new Date().getFullYear()),
 
   transmission: z.enum(['Manual', 'Automatic']),
   color: z.string().min(1),
@@ -13,6 +13,8 @@ export const createOfferSchema = z.object({
   taxDate: z.coerce.date().nullable().optional(),
 
   stnkOwnership: z.enum(['Pribadi', 'PT']),
+
+  generalCondition: z.enum(['Sangat Mulus & Rutin Servis', 'Bagus / Pemakaian Wajar', 'Ada Lecet Ringan', 'Perlu Servis / Pajak Mati'], { required_error: 'Kondisi umum wajib dipilih' }),
 
   fullName: z.string().min(3),
   email: z.string().email().optional(),

@@ -48,13 +48,39 @@ model Offer {
   color        String // Warna kendaraan
 
   // --- Step 2: Kondisi & Legalitas ---
-  mileage       Int // Kilometer (KM)
-  taxDate       DateTime? // Tanggal masa berlaku pajak
-  stnkOwnership String // Pribadi / PT
+  mileage          Int // Kilometer (KM)
+  taxDate          DateTime? // Tanggal masa berlaku pajak
+  stnkOwnership    String // Pribadi / PT
+  generalCondition String? // Sangat Mulus & Rutin Servis / Bagus / Ada Lecet / Perlu Servis (nullable for existing rows)
 
   // --- Step 3: Kontak ---
   fullName String // Nama lengkap pengirim
   email    String? // Email (opsional)
   whatsapp String // Nomor WA (format: +62...)
   location String // Lokasi inspeksi (Kantor / Home Service)
+}
+
+enum CarCategory {
+  MPV
+  CITY_CAR
+  LCGC
+  SUV
+}
+
+model PurchasedCar {
+  id         Int         @id @default(autoincrement())
+  brand      String
+  model      String
+  yearMin    Int
+  yearMax    Int
+  imageUrl   String      @db.Text
+  priceMin   Int
+  priceMax   Int
+  category   CarCategory
+  isPublished Boolean    @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@index([category])
+  @@index([isPublished])
 }

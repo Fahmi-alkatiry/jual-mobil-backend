@@ -53,6 +53,7 @@ export const sendWaNotification = async (offerData) => {
       `*Tanggal Pajak:* ${new Date(offerData.taxDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}\n` +
       `*Penjual:* ${offerData.fullName}\n` +
       `*Kepemilikan:* ${offerData.stnkOwnership}\n` +
+      `*Kondisi Umum:* ${offerData.generalCondition || "-"}\n` +
       `*WhatsApp:* ${offerData.whatsapp}\n` +
       `*Lokasi:* ${offerData.location}\n\n` +
       `*https://fe.jualmobilku.my.id/admin/offers/${offerData.id}\n\n` +
