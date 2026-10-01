@@ -34,7 +34,7 @@ app.use("/api", offerRoutes);
 app.use("/api", purchasedCarRoutes);
 
 app.get("/", (req, res) => {
-  res.json({ success: true, message: "Server JualMobilku Ready 🚀" });
+  res.json({ success: true, message: "Server Putra Aditya Motor Ready 🚀" });
 });
 
 // 5. 404 Handler

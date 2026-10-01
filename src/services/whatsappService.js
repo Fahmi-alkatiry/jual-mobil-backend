@@ -63,7 +63,7 @@ export const sendWaNotification = async (offerData) => {
 
     // Template Pesan Klien
     const clientMessage = `Halo *${offerData.fullName}*,\n\n` +
-      `Terima kasih telah menggunakan JualMobilku. Data mobil *${offerData.brand} ${offerData.model}* telah kami terima.\n\n` +
+      `Terima kasih telah menggunakan Putra Aditya Motor. Data mobil *${offerData.brand} ${offerData.model}* telah kami terima.\n\n` +
       `Tim kami akan segera menghubungi Anda untuk konfirmasi jadwal inspeksi. 🙏`;
 
     const headers = {

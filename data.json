@@ -13,3 +13,66 @@
   "whatsapp": "+6289668125652",
   "location": "Home Service"
 }
+
+[
+  {
+    "brand": "Toyota",
+    "model": "Avanza 1.3 / 1.5 G / Veloz",
+    "yearMin": 2016,
+    "yearMax": 2024,
+    "imageUrl": "https://naufalgallerymotor.vercel.app/images/cars/avanza-silver.webp",
+    "priceMin": 115,
+    "priceMax": 215,
+    "category": "MPV"
+  },
+  {
+    "brand": "Honda",
+    "model": "Brio Satya E / RS",
+    "yearMin": 2016,
+    "yearMax": 2024,
+    "imageUrl": "https://naufalgallerymotor.vercel.app/images/cars/brio-yellow.webp",
+    "priceMin": 98,
+    "priceMax": 168,
+    "category": "City Car"
+  },
+  {
+    "brand": "Toyota",
+    "model": "Calya 1.2 G / E",
+    "yearMin": 2017,
+    "yearMax": 2024,
+    "imageUrl": "https://naufalgallerymotor.vercel.app/images/cars/calya-white.webp",
+    "priceMin": 85,
+    "priceMax": 135,
+    "category": "LCGC"
+  },
+  {
+    "brand": "Daihatsu",
+    "model": "Xenia 1.3 X / R",
+    "yearMin": 2016,
+    "yearMax": 2024,
+    "imageUrl": "https://naufalgallerymotor.vercel.app/images/cars/xenia-silver.webp",
+    "priceMin": 100,
+    "priceMax": 185,
+    "category": "MPV"
+  },
+  {
+    "brand": "Daihatsu",
+    "model": "Terios / Toyota Rush",
+    "yearMin": 2016,
+    "yearMax": 2024,
+    "imageUrl": "https://naufalgallerymotor.vercel.app/images/cars/terios-grey.webp",
+    "priceMin": 135,
+    "priceMax": 215,
+    "category": "SUV"
+  },
+  {
+    "brand": "Daihatsu",
+    "model": "Sigra 1.0 / 1.2 R Deluxe",
+    "yearMin": 2017,
+    "yearMax": 2024,
+    "imageUrl": "https://naufalgallerymotor.vercel.app/images/cars/calya-white.webp",
+    "priceMin": 78,
+    "priceMax": 128,
+    "category": "LCGC"
+  }
+]
