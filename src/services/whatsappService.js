@@ -56,7 +56,7 @@ export const sendWaNotification = async (offerData) => {
       `*Kondisi Umum:* ${offerData.generalCondition || "-"}\n` +
       `*WhatsApp:* ${offerData.whatsapp}\n` +
       `*Lokasi:* ${offerData.location}\n\n` +
-      `*https://fe.jualmobilku.my.id/admin/offers/${offerData.id}\n\n` +
+      `*https://putraadityamotor.id/admin/offers/${offerData.id}\n\n` +
       `_Segera cek dashboard admin untuk detail lengkap._`
       
       ;
